@@ -88,7 +88,6 @@ typings/
 # dotenv environment variables file
 .env
 
-
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
