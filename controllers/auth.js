@@ -1,5 +1,7 @@
 const {Users} = require('../models');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('../config');
 
 const createUser = async (req, res) => {
     try {
@@ -25,6 +27,47 @@ const createUser = async (req, res) => {
         return res.status(400).json({success: false, message: err.toString()});
     }
 }
+const loginUser = async (req, res) => {
+    try {
+        const {email, password} = req.body;
+        if (!email && !password) {
+            return res.status(400).json({success: false, message: 'Incorrect login details'});
+        }
+        const user = await Users.findOne({where: {email: email}});
+        if (!user){
+            return res.status(400).json({message: 'user not exits'});
+        }
+        let isCorrectPass = await bcrypt.compare(password, user.password);
+        if (!isCorrectPass){
+            return res.status(400).json({message: 'Incorrect password'});
+        }
+        const accessToken = signAccessToken(user.id);
+        const refreshToken = jwt.sign(
+            {
+                id: user.id,
+            },
+            config.AUTH_TOKEN_SECRET.REFRESH_TOKEN,
+            {
+                expiresIn: '24h'
+            }
+        )
+        return res.status(200).json({accessToken: accessToken,refreshToken: refreshToken});
+    }catch (err) {
+        return res.status(400).json(err);
+    }
+}
+const signAccessToken = (user_id) => {
+    return jwt.sign(
+        {
+            id: user_id,
+        },
+        config.AUTH_TOKEN_SECRET.ACCESS_TOKEN,
+        {
+            expiresIn: '1h'
+        }
+    );
+}
+
 module.exports = {
     createUser,
 }
