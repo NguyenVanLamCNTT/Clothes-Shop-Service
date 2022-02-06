@@ -117,6 +117,7 @@ const refreshTokenUser = async (req, res) => {
 }
 
 module.exports = {
+    isAuthenticated,
     createUser,
     loginUser,
     refreshTokenUser,
