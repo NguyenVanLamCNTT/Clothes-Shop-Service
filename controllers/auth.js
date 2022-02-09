@@ -54,7 +54,7 @@ const loginUser = async (req, res) => {
         if (!isCorrectPass){
             return res.status(400).json({message: 'Incorrect password'});
         }
-        const accessToken = signAccessToken(user.id);
+        const accessToken = signAccessToken(user.id,user.role);
         const refreshToken = jwt.sign(
             {
                 id: user.id,
@@ -69,10 +69,11 @@ const loginUser = async (req, res) => {
         return res.status(400).json(err);
     }
 }
-const signAccessToken = (user_id) => {
+const signAccessToken = (user_id,role) => {
     return jwt.sign(
         {
             id: user_id,
+            role: role
         },
         config.AUTH_TOKEN_SECRET.ACCESS_TOKEN,
         {
@@ -109,7 +110,7 @@ const refreshTokenUser = async (req, res) => {
     try {
         const {token} = req.body;
         const user = jwt.verify(token,config.AUTH_TOKEN_SECRET.REFRESH_TOKEN);
-        const accessToken = signAccessToken(user.id);
+        const accessToken = signAccessToken(user.id,user.role);
         return res.status(200).json({accessToken: accessToken});
     }catch (err) {
         return res.status(400).json({message: err.toString()});
