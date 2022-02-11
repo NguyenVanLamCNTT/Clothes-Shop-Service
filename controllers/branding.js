@@ -1,49 +1,46 @@
-const {Categories, Products} = require('../models');
+const {Branding, Products} = require('../models');
 
-const createCategory = async (req, res) => {
+const createBranding = async (req, res) => {
     try {
         const user = req.user;
-        if (user.role === 'ADMIN') {
+        if (user.role === 'ADMIN'){
             const {name} = req.body;
-            const categories = await Categories.findAll();
-            if (categories){
-                const category = await Categories.findOne({where: {name: name}});
-                if (category) {
-                    return res.status(400).json({success: false, message: 'categories exist'})
+            const branding = await Branding.findAll();
+            if (branding){
+                const bran = await Branding.findOne({where: {name: name}});
+                if (bran){
+                    return res.status(400).json({success: false, message: 'branding exist'})
                 }
-                await Categories.create({
+                await Branding.create({
                     name: name,
                     count: 0
                 });
                 return res.status(200).json({success: true});
             }
-            await Categories.create({
+            await Branding.create({
                 name: name,
                 count: 0
             });
             return res.status(200).json({success: true});
-        }else {
-            return res.status(400).json({success: false, message: 'You do not have access'});
         }
     }catch (err) {
         return res.status(400).json(err);
     }
 }
-
-const getCategories = async (req, res) => {
+const getBranding = async (req, res) => {
     try {
-        const categories = await Categories.findAll();
-         return res.status(200).json(categories);
+        const branding = await Branding.findAll();
+        return res.status(200).json(branding);
     }catch (err) {
         return res.status(400).json(err);
     }
 }
-const updateCategory = async (req, res) => {
+const updateBranding = async (req, res) => {
     try {
         const {id,name} =req.body;
         const user = req.user;
         if (user.role === 'ADMIN'){
-            await Categories.update({
+            await Branding.update({
                 name: name
             }, {where: {id: id}});
             return res.status(200).json({success: true});
@@ -54,13 +51,13 @@ const updateCategory = async (req, res) => {
         return  res.status(400).json(err);
     }
 }
-const deleteCategory = async (req, res) => {
+const deleteBranding = async (req, res) => {
     try {
         const id = req.params;
         const user = req.user;
         if (user.role === 'ADMIN') {
             await Products.destroy({where: {categories_id: id}})
-            await Categories.destroy({where: {id: id}});
+            await Branding.destroy({where: {id: id}});
             return res.status(200).json({success: true});
         }else {
             return res.status(400).json({success: false, message: 'You do not have access'});
@@ -70,8 +67,8 @@ const deleteCategory = async (req, res) => {
     }
 }
 module.exports = {
-    createCategory,
-    getCategories,
-    updateCategory,
-    deleteCategory
+    createBranding,
+    updateBranding,
+    deleteBranding,
+    getBranding
 }
