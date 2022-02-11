@@ -4,7 +4,7 @@ const router = express.Router();
 const {createCategory, getCategories, updateCategory, deleteCategory, isAuthenticated} = require('../controllers');
 
 router.post('/', isAuthenticated,createCategory);
-router.get('/', isAuthenticated, getCategories);
+router.get('/', getCategories);
 router.put('/',isAuthenticated,updateCategory);
 router.delete('/id', isAuthenticated, deleteCategory);
 

@@ -6,7 +6,8 @@ const createCategory = async (req, res) => {
         if (user.role === 'ADMIN') {
             const {name} = req.body;
             await Categories.create({
-                name: name
+                name: name,
+                count: 0
             });
             return res.status(200).json({success: true});
         }else {

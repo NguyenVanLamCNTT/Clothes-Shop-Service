@@ -12,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
         },
         name: {
             type: DataTypes.STRING,
+        },
+        count: {
+            type: DataTypes.BIGINT
         }
     }, {
         sequelize,
