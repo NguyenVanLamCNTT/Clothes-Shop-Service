@@ -1,33 +1,26 @@
 'use strict'
-
-const {Model} = require('sequelize')
+const {Model} = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-    class Images extends Model{}
-    Images.init({
+    class ProductSize extends Model {}
+    ProductSize.init({
         id: {
             type: DataTypes.BIGINT,
             primaryKey: true,
             autoIncrement: true
         },
-        url: {
-            type: DataTypes.STRING,
+        product_id: {
+            type: DataTypes.BIGINT
         },
-        cloudinary_id: {
-            type: DataTypes.STRING
-        },
-        type: {
-            type: DataTypes.STRING
-        },
-        product_color_id: {
+        size_id: {
             type: DataTypes.BIGINT
         }
     }, {
         sequelize,
-        tableName: 'images',
+        tableName: 'products_size',
         underscored: true,
         createdAt: 'created_at',
         updatedAt: 'updated_at'
     });
-    return Images;
+    return ProductSize;
 }

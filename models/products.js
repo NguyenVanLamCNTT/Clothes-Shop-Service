@@ -15,8 +15,8 @@ module.exports = (sequelize, DataTypes) => {
         price: {
             type: DataTypes.BIGINT
         },
-        detail: {
-            type: DataTypes.ARRAY(DataTypes.TEXT)
+        description: {
+            type: DataTypes.STRING
         },
         categories_id: {
             type: DataTypes.BIGINT
@@ -24,7 +24,10 @@ module.exports = (sequelize, DataTypes) => {
         branding_id: {
             type: DataTypes.BIGINT
         },
-        image_id: {
+        status: {
+            type: DataTypes.STRING
+        },
+        discount: {
             type: DataTypes.BIGINT
         }
     }, {
@@ -34,5 +37,17 @@ module.exports = (sequelize, DataTypes) => {
         createdAt: 'created_at',
         updatedAt: 'updated_at'
     });
+    Products.associate = (models) => {
+        Products.hasMany(models.ProductSize, {
+            as: 'products_size',
+            foreignKey: 'product_id'
+        });
+    }
+    Products.associate = (models) => {
+        Products.hasMany(models.ProductColor, {
+            as: 'products_color',
+            foreignKey: 'product_id'
+        });
+    }
     return Products;
 }
