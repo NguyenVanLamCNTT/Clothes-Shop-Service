@@ -58,6 +58,7 @@ const loginUser = async (req, res) => {
         const refreshToken = jwt.sign(
             {
                 id: user.id,
+                role: user.role
             },
             config.AUTH_TOKEN_SECRET.REFRESH_TOKEN,
             {

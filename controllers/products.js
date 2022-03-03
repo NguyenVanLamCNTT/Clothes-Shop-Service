@@ -46,11 +46,7 @@ const getProductById = async (req, res) => {
                 include: [{
                     model: Images,
                     as: "images",
-                    where: {type: ["Main", "People"]}
-                },{
-                    model: Colors,
-                    as: 'color'
-                }],
+                },],
             }],
             where: {id: product_id}
         }
