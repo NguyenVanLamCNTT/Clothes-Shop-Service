@@ -28,6 +28,10 @@ module.exports = (sequelize, DataTypes) => {
             as: 'images',
             foreignKey: 'product_color_id'
         });
+        ProductColor.hasMany(models.ProductSizeColor,{
+            as: 'products_size_color',
+            foreignKey: 'product_color_id'
+        });
     }
     return ProductColor;
 }

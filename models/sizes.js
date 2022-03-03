@@ -19,5 +19,11 @@ module.exports = (sequelize, DataTypes) => {
          createdAt: 'created_at',
          updatedAt: 'updated_at'
      });
+     Sizes.associate = (models) => {
+         Sizes.hasMany(models.ProductSizeColor,{
+             as: 'products_size_color',
+             foreignKey: 'size_id'
+         });
+     }
      return Sizes;
 }

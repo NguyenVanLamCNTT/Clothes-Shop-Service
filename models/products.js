@@ -38,12 +38,6 @@ module.exports = (sequelize, DataTypes) => {
         updatedAt: 'updated_at'
     });
     Products.associate = (models) => {
-        Products.hasMany(models.ProductSize, {
-            as: 'products_size',
-            foreignKey: 'product_id'
-        });
-    }
-    Products.associate = (models) => {
         Products.hasMany(models.ProductColor, {
             as: 'products_color',
             foreignKey: 'product_id'
