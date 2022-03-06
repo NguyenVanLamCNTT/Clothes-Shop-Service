@@ -6,6 +6,7 @@ const product = require('./products')
 const productColor = require('./product_color');
 const color = require('./color');
 const size = require('./size');
+const productSizeColor = require('./product_size_color');
 module.exports = {
     ...auth,
     ...categories,
@@ -14,5 +15,6 @@ module.exports = {
     ...product,
     ...productColor,
     ...color,
-    ...size
+    ...size,
+    ...productSizeColor
 }
