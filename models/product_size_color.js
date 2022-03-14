@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     }, {
         sequelize,
-        tableName: 'products_size_color',
+        tableName: 'product_size_color',
         underscored: true,
         createdAt: 'created_at',
         updatedAt: 'updated_at'
