@@ -55,19 +55,19 @@ const updateCategory = async (req, res) => {
     }
 }
 const deleteCategory = async (req, res) => {
-    try {
-        const id = req.params;
-        const user = req.user;
-        if (user.role === 'ADMIN') {
-            await Products.destroy({where: {categories_id: id}})
-            await Categories.destroy({where: {id: id}});
-            return res.status(200).json({success: true});
-        }else {
-            return res.status(400).json({success: false, message: 'You do not have access'});
-        }
-    }catch (err) {
-        return res.status(400).json(err);
-    }
+    // try {
+    //     const id = req.params;
+    //     const user = req.user;
+    //     if (user.role === 'ADMIN') {
+    //         await Products.destroy({where: {categories_id: id}})
+    //         await Categories.destroy({where: {id: id}});
+    //         return res.status(200).json({success: true});
+    //     }else {
+    //         return res.status(400).json({success: false, message: 'You do not have access'});
+    //     }
+    // }catch (err) {
+    //     return res.status(400).json(err);
+    // }
 }
 module.exports = {
     createCategory,

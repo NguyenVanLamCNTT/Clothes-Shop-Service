@@ -1,4 +1,4 @@
-const {Products,Images,ProductColor,ProductSize,Colors} = require('../models');
+const {Products,Images, ProductSize} = require('../models');
 
 const createProduct = async (req, res) => {
     try {
@@ -20,20 +20,16 @@ const getProducts = async (req, res) => {
     try {
         const options = {
             include: [{
-             model:  ProductColor,
-             as: "products_color",
-             limit: 1,
-             include: [{
-                 model: Images,
-                 as: "images",
-                 where: {type: ["Main", "People"]}
-             }]
-            }]
+                model: Images,
+                as:'images',
+                where: {type: ['Main','People']}
+            }],
+            attributes: ['id','name','price', 'status', 'discount']
         }
         const products = await Products.findAll(options);
         return res.status(200).json(products);
     }catch (err) {
-        return res.status(400).json(err);
+        return res.status(400).json(err.toString());
     }
 }
 const getProductById = async (req, res) => {
@@ -41,17 +37,17 @@ const getProductById = async (req, res) => {
         const {product_id} = req.params;
         const options = {
             include: [{
-                model:  ProductColor,
-                as: "products_color",
-                include: [{
-                    model: Images,
-                    as: "images",
-                },],
+                model:  Images,
+                as: "images",
+                where: {type: ['Main','People']}
+            },{
+                model: ProductSize,
+                as: 'product_size',
             }],
             where: {id: product_id}
         }
-        const product = await Products.findAll(options);
-        return res.status(200).json(product);
+        const products = await Products.findOne(options);
+        return res.status(200).json(products);
     }catch (err) {
         return res.status(400).json(err);
     }
@@ -61,16 +57,12 @@ const getProductByCategory = async (req, res) => {
         const {category_id} = req.params;
         const options = {
             include: [{
-                model:  ProductColor,
-                as: "products_color",
-                limit: 1,
-                include: [{
-                    model: Images,
-                    as: "images",
-                    where: {type: ["Main", "People"]}
-                }]
+                model:  Images,
+                as: "images",
+                where: {type: ['Main','People']}
             }],
-            where: {category_id: category_id}
+            attributes: ['id','name','price', 'status', 'discount'],
+            where: {categories_id: category_id}
         }
         const products = await Products.findAll(options);
         return res.status(200).json(products);
@@ -83,15 +75,11 @@ const getProductByBranding = async (req, res) => {
         const {branding_id} = req.params;
         const options = {
             include: [{
-                model:  ProductColor,
-                as: "products_color",
-                limit: 1,
-                include: [{
-                    model: Images,
-                    as: "images",
-                    where: {type: ["Main", "People"]}
-                }]
+                model:  Images,
+                as: "images",
+                where: {type: ['Main','People']}
             }],
+            attributes: ['id','name','price', 'status', 'discount'],
             where: {branding_id: branding_id}
         }
         const products = await Products.findAll(options);

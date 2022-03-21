@@ -2,14 +2,14 @@
 const {Model} = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-    class ProductSizeColor extends Model {}
-    ProductSizeColor.init({
+    class ProductSize extends Model {}
+    ProductSize.init({
         id: {
             type: DataTypes.BIGINT,
             primaryKey: true,
             autoIncrement: true
         },
-        product_color_id: {
+        product_id: {
             type: DataTypes.BIGINT
         },
         size_id: {
@@ -20,10 +20,10 @@ module.exports = (sequelize, DataTypes) => {
         }
     }, {
         sequelize,
-        tableName: 'product_size_color',
+        tableName: 'product_size',
         underscored: true,
         createdAt: 'created_at',
         updatedAt: 'updated_at'
     });
-    return ProductSizeColor;
+    return ProductSize;
 }
