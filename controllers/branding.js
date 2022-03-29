@@ -11,13 +11,13 @@ const createBranding = async (req, res) => {
                 if (bran){
                     return res.status(400).json({success: false, message: 'branding exist'})
                 }
-                await Branding.create({
+                const brandingNew = await Branding.create({
                     name: name,
                     count: 0
                 });
-                return res.status(200).json({success: true});
+                return res.status(200).json(brandingNew);
             }
-            await Branding.create({
+            const brandingNew = await Branding.create({
                 name: name,
                 count: 0
             });

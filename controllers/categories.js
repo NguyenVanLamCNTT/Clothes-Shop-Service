@@ -11,13 +11,13 @@ const createCategory = async (req, res) => {
                 if (category) {
                     return res.status(400).json({success: false, message: 'categories exist'})
                 }
-                await Categories.create({
+                const categoryNew = await Categories.create({
                     name: name,
                     count: 0
                 });
-                return res.status(200).json({success: true});
+                return res.status(200).json(categoryNew);
             }
-            await Categories.create({
+            const categoryNew = await Categories.create({
                 name: name,
                 count: 0
             });
@@ -43,10 +43,10 @@ const updateCategory = async (req, res) => {
         const {id,name} =req.body;
         const user = req.user;
         if (user.role === 'ADMIN'){
-            await Categories.update({
+            const data = await Categories.update({
                 name: name
             }, {where: {id: id}});
-            return res.status(200).json({success: true});
+            return res.status(200).json(data);
         }else {
             return res.status(400).json({success: false, message: 'You do not have access'});
         }
