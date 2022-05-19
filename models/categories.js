@@ -1,9 +1,9 @@
 'use strict';
 
-const {Model} = require('sequelize');
+const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-    class Categories extends Model{}
+    class Categories extends Model {}
     Categories.init({
         id: {
             type: DataTypes.BIGINT,
@@ -24,9 +24,9 @@ module.exports = (sequelize, DataTypes) => {
         updatedAt: 'updated_at'
     });
     Categories.associate = (models) => {
-        Categories.hasMany(models.Products,{
+        Categories.hasMany(models.Products, {
             as: 'products',
-            foreignKey: 'categories_id'
+            foreignKey: 'category_id'
         });
     }
     return Categories;

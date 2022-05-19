@@ -1,8 +1,8 @@
 'use strict'
-const {Model} = require('sequelize');
+const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-    class Products extends Model{}
+    class Products extends Model {}
     Products.init({
         id: {
             type: DataTypes.BIGINT,
@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         description: {
             type: DataTypes.STRING
         },
-        categories_id: {
+        category_id: {
             type: DataTypes.BIGINT
         },
         branding_id: {
@@ -44,11 +44,11 @@ module.exports = (sequelize, DataTypes) => {
         updatedAt: 'updated_at'
     });
     Products.associate = (models) => {
-        Products.hasMany(models.ProductSize,{
+        Products.hasMany(models.ProductSize, {
             as: 'product_size',
             foreignKey: 'product_id'
         });
-        Products.hasMany(models.Images,{
+        Products.hasMany(models.Images, {
             as: 'images',
             foreignKey: 'product_id'
         });

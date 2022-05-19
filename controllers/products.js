@@ -1,105 +1,107 @@
-const {Products,Images, ProductSize} = require('../models');
+const { Products, Images, ProductSize } = require('../models');
 
-const createProduct = async (req, res) => {
+const createProduct = async(req, res) => {
     try {
-        const {name,price, description,category_id, branding_id} = req.body;
+        const { name, price, description, category_id, branding_id, color, discount } = req.body;
         const product = await Products.create({
             name: name,
             price: price,
             description: description,
             category_id: category_id,
-            branding_id: branding_id
+            branding_id: branding_id,
+            color: color,
+            discount: discount || 0
         });
         if (!product) throw Error("Error!");
-        return res.status(200).json({success: true});
-    }catch (err) {
+        return res.status(200).json({ success: true });
+    } catch (err) {
         return res.status(400).json(err.toString());
     }
 }
-const getProducts = async (req, res) => {
+const getProducts = async(req, res) => {
     try {
         const options = {
             include: [{
                 model: Images,
-                as:'images',
-                where: {type: ['Main','People']}
+                as: 'images',
+                where: { type: ['Main', 'People'] }
             }],
-            attributes: ['id','name','price', 'status', 'discount']
+            attributes: ['id', 'name', 'price', 'status', 'discount']
         }
         const products = await Products.findAll(options);
         return res.status(200).json(products);
-    }catch (err) {
+    } catch (err) {
         return res.status(400).json(err.toString());
     }
 }
-const getProductById = async (req, res) => {
+const getProductById = async(req, res) => {
     try {
-        const {product_id} = req.params;
+        const { product_id } = req.params;
         const options = {
             include: [{
-                model:  Images,
+                model: Images,
                 as: "images",
-                where: {type: ['Main','People']}
-            },{
+                where: { type: ['Main', 'People'] }
+            }, {
                 model: ProductSize,
                 as: 'product_size',
             }],
-            where: {id: product_id}
+            where: { id: product_id }
         }
         const products = await Products.findOne(options);
         return res.status(200).json(products);
-    }catch (err) {
+    } catch (err) {
         return res.status(400).json(err);
     }
 }
-const getProductByCategory = async (req, res) => {
+const getProductByCategory = async(req, res) => {
     try {
-        const {category_id} = req.params;
+        const { category_id } = req.params;
         const options = {
             include: [{
-                model:  Images,
+                model: Images,
                 as: "images",
-                where: {type: ['Main','People']}
+                where: { type: ['Main', 'People'] }
             }],
-            attributes: ['id','name','price', 'status', 'discount'],
-            where: {categories_id: category_id}
+            attributes: ['id', 'name', 'price', 'status', 'discount'],
+            where: { categories_id: category_id }
         }
         const products = await Products.findAll(options);
         return res.status(200).json(products);
-    }catch (err) {
+    } catch (err) {
         return res.status(400).json(err);
     }
 }
-const getProductByBranding = async (req, res) => {
+const getProductByBranding = async(req, res) => {
     try {
-        const {branding_id} = req.params;
+        const { branding_id } = req.params;
         const options = {
             include: [{
-                model:  Images,
+                model: Images,
                 as: "images",
-                where: {type: ['Main','People']}
+                where: { type: ['Main', 'People'] }
             }],
-            attributes: ['id','name','price', 'status', 'discount'],
-            where: {branding_id: branding_id}
+            attributes: ['id', 'name', 'price', 'status', 'discount'],
+            where: { branding_id: branding_id }
         }
         const products = await Products.findAll(options);
         return res.status(200).json(products);
-    }catch (err) {
+    } catch (err) {
         return res.status(400).json(err);
     }
 }
-const deleteProducts = async (req, res) => {
+const deleteProducts = async(req, res) => {
     try {
-        const {list_product_id} = req.body;
-        for (let product_id of list_product_id){
+        const { list_product_id } = req.body;
+        for (let product_id of list_product_id) {
             await deleteProduct(product_id);
         }
-        return res.status(200).json({success: true});
-    }catch (err) {
+        return res.status(200).json({ success: true });
+    } catch (err) {
         return res.status(400).json(err);
     }
 }
-const deleteProduct = async (product_id) => {
+const deleteProduct = async(product_id) => {
     // const product = await Products.findByPk(product_id);
     // if (product){
     //     await Images.destroy({
